@@ -1,0 +1,42 @@
+version: 1.0.0;
+
+name: nas
+
+services:
+  emby:
+    image: emby/embyserver_arm64v8
+    container_name: emby-container
+    volumes:
+      - $PWD/emby/config:/config
+      - $PWD/emby/media:/media
+    restart: on-failure # 失败重启
+    ports:
+      - 8096:8096 # HTTP port
+      - 8920:8920 # HTTPS port
+  metatube:
+    image: ghcr.io/metatube-community/metatube-server:latest
+    container_name: metatube
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    # environment:
+    #   - HTTP_PROXY=
+    #   - HTTPS_PROXY=
+    volumes:
+      - $PWD/postgres/run:/var/run/postgresql
+    command: -dsn "postgres://metatube:metatube@/metatube?host=/var/run/postgresql" -port 8080 -db-auto-migrate -db-prepared-stmt
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: metatube-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=metatube
+      - POSTGRES_PASSWORD=metatube
+      - POSTGRES_DB=metatube
+    volumes:
+      - $PWD/postgres/db:/var/lib/postgresql/data
+      - $PWD/postgres/run:/var/run/postgresql
+    command: "-c TimeZone=Asia/Shanghai -c log_timezone=Asia/Shanghai -c listen_addresses='' -c unix_socket_permissions=0777"
