@@ -1,1 +1,7 @@
-# docker-learn
+# docker
+
+## nas
+
+```
+sh nas-setup.sh
+```
