@@ -1,0 +1,12 @@
+name: my-app
+
+services:
+  my-image:
+    image: my-image:v2
+    container_name: my-image-container
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=value1
+    volumes:
+      - $PWD/emby/media:/media
