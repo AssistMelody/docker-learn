@@ -2,8 +2,8 @@
 # 支持设置UA：https://xxx.com/subscribe.m3u UA="xxx"
 # This is a list of subscription sources, with one subscription address per line
 # Supports setting UA: https://xxx.com/subscribe.m3u UA="xxx"
-
-
+https://gh-proxy.org/github.com/ioptu/IPTV.txt2m3u.player/raw/refs/heads/main/iptv_merged.m3u
+https://raw.githubusercontent.com/CCSH/IPTV/refs/heads/main/live.m3u
 
 
 
